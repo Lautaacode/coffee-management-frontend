@@ -1,102 +1,59 @@
-import React, { useState } from "react";
-import {
-    EnvelopeIcon,
-    LockClosedIcon,
-    EyeIcon,
-    EyeSlashIcon,
-} from "@heroicons/react/24/outline";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
+export const LoginPage: React.FC = () => {
+  const [rol, setRol] = useState('admin');
+  const navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = useState(false);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Redirección dinámica según el rol seleccionado
+    if (rol === 'admin') navigate('/admin');
+    else if (rol === 'cashier') navigate('/cashier');
+    else if (rol === 'cook') navigate('/cook');
+    else if (rol === 'waiter') navigate('/waiter');
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
+  return (
+    <div style={{
+      minHeight: '100vh', backgroundColor: '#1a252f', display: 'flex',
+      alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif'
+    }}>
+      <div style={{
+        backgroundColor: '#2c3e50', padding: '40px', borderRadius: '12px',
+        width: '360px', boxShadow: '0px 8px 24px rgba(0,0,0,0.3)', 
+        textAlign: 'center'
+      }}>
+        <h1 style={{ color: 'white', fontSize: '1.8rem', margin: '0 0 10px 0' }}>☕ Coffe-Management</h1>
+        <p style={{ color: '#bdc3c7', fontSize: '0.9rem', marginBottom: '30px' }}>Inicia sesión para acceder a tu puesto</p>
 
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' }}>
+            <label style={{ color: '#bdc3c7', fontSize: '0.85rem' }}>Usuario / Email</label>
+            <input type="text" disabled placeholder="empleado@cafeteria.com" style={{ padding: '12px', borderRadius: '6px', border: '1px solid #34495e', backgroundColor: '#1a252f', color: '#7f8c8d', cursor: 'not-allowed' }} />
+          </div>
 
-    return (
-        <div
-            className="min-h-screen flex flex-col items-center justify-center bg-cover bg-no-repeat bg-center p-4"
-            style={{ backgroundImage: "url('/bg-login.webp')" }}
-        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' }}>
+            <label style={{ color: '#bdc3c7', fontSize: '0.85rem' }}>Simular Puesto de Trabajo</label>
+            <select 
+              value={rol} 
+              onChange={(e) => setRol(e.target.value)}
+              style={{ padding: '12px', borderRadius: '6px', border: '1px solid #34495e', backgroundColor: '#1a252f', color: 'white', cursor: 'pointer', fontSize: '1rem' }}
+            >
+              <option value="admin">Gerente / Administrador 👑</option>
+              <option value="cashier">Cajero / Facturación 💵</option>
+              <option value="cook">Cocinero / Barista 🍳</option>
+              <option value="waiter">Mesero / Mozo 📱</option>
+            </select>
+          </div>
 
-            {/* LOGO */}
-            <div className="flex justify-center mb-6 ">
-                <img
-                    src="/logo.webp"
-                    alt="Buen Sabor"
-                    className="w-150 h-auto"
-                />
-            </div>
-            {/* Card */}
-            <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl w-full max-w-md p-8">
-
-
-                <form className="space-y-4">
-
-                    {/* Email */}
-                    <div className="relative">
-                        <EnvelopeIcon className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-700"
-                        />
-                    </div>
-
-                    {/* Password */}
-                    <div className="relative">
-                        <LockClosedIcon className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-amber-700"
-                        />
-
-                        {showPassword ? (
-                            <EyeSlashIcon
-                                onClick={() => setShowPassword(false)}
-                                className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 cursor-pointer"
-                            />
-                        ) : (
-                            <EyeIcon
-                                onClick={() => setShowPassword(true)}
-                                className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 cursor-pointer"
-                            />
-                        )}
-                    </div>
-
-                    {/* Button */}
-                    <button
-                        type="submit"
-                        className="w-full bg-linear-to-r from-amber-800 to-amber-600 hover:opacity-90 text-white font-semibold py-2 rounded-md transition"
-                    >
-                        Ingresar al Servidor
-                    </button>
-
-                    {/* Forgot */}
-                    <div className="text-center text-sm text-gray-600">
-                        <a href="#" className="hover:underline">
-                            ¿Olvidaste tu contraseña?
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+          <button type="submit" style={{ padding: '14px', borderRadius: '6px', border: 'none', backgroundColor: '#e67e22', color: 'white', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', marginTop: '10px', transition: 'background 0.2s' }}>
+            Ingresar al Panel
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
+export default LoginPage;

@@ -1,7 +1,7 @@
-import AdminDashboard from "../features/admin/AdminDashboard";
-import CookDashboard from "../features/cook/CookDashboard";
-import WaiterDashboard from "../features/waiter/WaiterDashboard";
-import DashboardLayout from "../layouts/DashboardLayout";
+import AdminDashboard from "./admin/AdminDashboard";
+import CookDashboard from "./cook/CookDashboard";
+import { DashboardLayout } from "../shared/layouts/DashboardLayout2";
+import WaiterDashboard from "./waiter/WaiterDashboard";
 
 
 export default function HomePage() {

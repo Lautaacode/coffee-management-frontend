@@ -1,0 +1,8 @@
+export const PAYMENT_METHODS = [
+    "CASH",
+    "CARD",
+    "TRANSFER"
+] as const;
+
+export type PaymentMethod =
+    typeof PAYMENT_METHODS[number];

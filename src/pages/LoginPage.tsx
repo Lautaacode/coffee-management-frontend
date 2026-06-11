@@ -31,7 +31,7 @@ export const LoginPage: React.FC = () => {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' }}>
             <label style={{ color: '#bdc3c7', fontSize: '0.85rem' }}>Usuario / Email</label>
-            <input type="text" disabled placeholder="empleado@cafeteria.com" style={{ padding: '12px', borderRadius: '6px', border: '1px solid #34495e', backgroundColor: '#1a252f', color: '#7f8c8d', cursor: 'not-allowed' }} />
+            <input type="text"  placeholder="empleado@cafeteria.com" style={{ padding: '12px', borderRadius: '6px', border: '1px solid #34495e', backgroundColor: '#1a252f', color: '#7f8c8d' }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'left' }}>

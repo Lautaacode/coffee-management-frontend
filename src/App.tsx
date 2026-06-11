@@ -1,44 +1,149 @@
-import { Routes, Route, Navigate } from 'react-router-dom'; 
-import { LoginPage } from './pages/LoginPage';
-import { AdminDashboard } from './features/admin/AdminDashboard';
-import CashierDashboard from './features/cashier/pages/CashierDashboard';
-import { CookDashboard } from './features/cook/CookDashboard';
-import  WaiterDashboard  from './features/waiter/WaiterDashboard';
-import { DashboardLayout } from './layouts/DashboardLayout';
+import {
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom";
+
+import LoginPage
+  from "./features/auth/pages/LoginPage";
+
+import DashboardPage
+  from "./features/dashboard/pages/DashboardPage";
+
+import ProductsPage
+  from "./features/product/pages/ProductsPage";
+
+import ProtectedRoute
+  from "./core/routes/ProtectedRoute";
+
+import DashboardLayout
+  from "./shared/layouts/DashboardLayout";
+import CreateProductPage from "./features/product/pages/CreateProductPage";
+import EditProductPage from "./features/product/pages/EditProductPage";
+import TablesPage from "./features/tables/pages/TablesPage";
+import OrdersPage from "./features/orders/pages/OrdersPage";
+import OrderDetailsPage from "./features/orderitem/pages/OrderItemsPage";
+import KitchenPage from "./features/orders/pages/KitchenPage";
+import PaymentsPage from "./features/payment/pages/PaymentsPage";
+import UsersPage from "./features/users/pages/UsersPage";
+
+import CreateSupplyPage from "./features/supply/pages/CreateSupplyPage";
+import EditSupplyPage from "./features/supply/pages/EditSupplyPage";
 
 function App() {
+
   return (
+
     <Routes>
-      {/* Pantalla de Entrada principal */}
-      <Route path="/login" element={<LoginPage />} />
 
-      {/* Módulos independientes envueltos en el Layout Global */}
-      <Route path="/admin" element={
-        <DashboardLayout rolName="Administración">
-          <AdminDashboard />
-        </DashboardLayout>
-      } />
-      
-      <Route path="/cashier" element={
-        <DashboardLayout rolName="Caja / Facturación">
-          <CashierDashboard />
-        </DashboardLayout>
-      } />
-      
-      <Route path="/cook" element={
-        <DashboardLayout rolName="Cocina / Barista">
-          <CookDashboard />
-        </DashboardLayout>
-      } />
-      
-      <Route path="/waiter" element={
-        <DashboardLayout rolName="Mesero / Mozo">
-          <WaiterDashboard />
-        </DashboardLayout>
-      } />
+      <Route
+        path="/"
+        element={
+          <Navigate
+            to="/login"
+          />
+        }
+      />
 
-      {/* Comodín de redirección */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/login"
+        element={
+          <LoginPage />
+        }
+      />
+
+      <Route
+        element={
+          <ProtectedRoute>
+
+            <DashboardLayout />
+
+          </ProtectedRoute>
+        }
+      >
+
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardPage />
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <UsersPage />
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProductsPage />
+          }
+        />
+        <Route
+          path="/products/create"
+          element={
+            <CreateProductPage />
+          }
+        />
+
+        <Route
+          path="/products/edit/:id"
+          element={
+            <EditProductPage />
+          }
+        />
+        {/* <Route
+          path="/supplies"
+          element={
+            <SuppliesPage />
+          }
+        /> */}
+
+        <Route
+          path="/supplies/create"
+          element={
+            <CreateSupplyPage />
+          }
+        />
+
+        <Route
+          path="/supplies/edit/:id"
+          element={
+            <EditSupplyPage />
+          }
+        />
+        <Route
+          path="/payments"
+          element={
+            <PaymentsPage />
+          }
+        />
+        <Route
+          path="/tables"
+          element={
+            <TablesPage />
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <OrdersPage />
+          }
+        />
+        <Route
+          path="/orders/:id"
+          element={
+            <OrderDetailsPage />
+          }
+        />
+        <Route
+          path="/kitchen"
+          element={
+            <KitchenPage />
+          }
+        />
+      </Route>
     </Routes>
   );
 }

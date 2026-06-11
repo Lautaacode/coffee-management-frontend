@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
-  rolName: string;
 }
 
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, rolName }) => {
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
 
   return (
@@ -44,7 +43,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, rolN
             textTransform: 'uppercase',
             whiteSpace: 'nowrap' 
           }}>
-            {rolName}
           </span>
         </div>
         

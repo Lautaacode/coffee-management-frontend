@@ -28,12 +28,13 @@ class SupplyService {
     }
 
     async addStock(id: number, quantity: number) {
-        const response = await api.patch(`/supplies/${id}/add-stock?quantity=${quantity}`);
+        const response = await api.patch(
+            `/supplies/${id}/add-stock`, null, { params: { quantity } });
         return response.data;
     }
 
     async removeStock(id: number, quantity: number) {
-        const response = await api.patch(`/supplies/${id}/remove-stock?quantity=${quantity}`);
+        const response = await api.patch(`/supplies/${id}/remove-stock`, null, { params: { quantity } });
         return response.data;
     }
 

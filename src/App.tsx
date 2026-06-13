@@ -10,25 +10,41 @@ import LoginPage
 import DashboardPage
   from "./features/dashboard/pages/DashboardPage";
 
-import ProductsPage
-  from "./features/product/pages/ProductsPage";
+import DashboardLayout
+  from "./shared/layouts/DashboardLayout";
 
 import ProtectedRoute
   from "./core/routes/ProtectedRoute";
 
-import DashboardLayout
-  from "./shared/layouts/DashboardLayout";
-import CreateProductPage from "./features/product/pages/CreateProductPage";
-import EditProductPage from "./features/product/pages/EditProductPage";
-import TablesPage from "./features/tables/pages/TablesPage";
-import OrdersPage from "./features/orders/pages/OrdersPage";
-import OrderDetailsPage from "./features/orderitem/pages/OrderItemsPage";
-import KitchenPage from "./features/orders/pages/KitchenPage";
-import PaymentsPage from "./features/payment/pages/PaymentsPage";
-import UsersPage from "./features/users/pages/UsersPage";
+import RoleGuard
+  from "./core/routes/RoleGuard";
 
-import CreateSupplyPage from "./features/supply/pages/CreateSupplyPage";
-import EditSupplyPage from "./features/supply/pages/EditSupplyPage";
+import UsersPage
+  from "./features/users/pages/UsersPage";
+
+import ProductsPage
+  from "./features/product/pages/ProductsPage";
+
+import SuppliesPage
+  from "./features/supply/pages/SuppliesPage";
+
+
+
+import TablesPage
+  from "./features/tables/pages/TablesPage";
+
+import OrdersPage
+  from "./features/orders/pages/OrdersPage";
+
+import OrderItemsPage
+  from "./features/orderitem/pages/OrderItemsPage";
+
+import PaymentsPage
+  from "./features/payment/pages/PaymentsPage";
+
+import KitchenPage
+  from "./features/kitchen/pages/KitchenPage";
+import ProductSuppliesPage from "./features/productsupply/pages/ProductSuppliesPage";
 
 function App() {
 
@@ -37,115 +53,241 @@ function App() {
     <Routes>
 
       <Route
+
         path="/"
+
         element={
           <Navigate
             to="/login"
           />
         }
+
       />
 
       <Route
+
         path="/login"
+
         element={
           <LoginPage />
         }
+
       />
 
       <Route
+
         element={
+
           <ProtectedRoute>
 
             <DashboardLayout />
 
           </ProtectedRoute>
+
         }
+
       >
 
         <Route
+
           path="/dashboard"
+
           element={
             <DashboardPage />
           }
+
         />
+
         <Route
+
           path="/users"
+
           element={
-            <UsersPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER"
+              ]}
+            >
+
+              <UsersPage />
+
+            </RoleGuard>
+
           }
+
         />
+
         <Route
+
           path="/products"
+
           element={
-            <ProductsPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER"
+              ]}
+            >
+
+              <ProductsPage />
+
+            </RoleGuard>
+
           }
-        />
-        <Route
-          path="/products/create"
-          element={
-            <CreateProductPage />
-          }
+
         />
 
         <Route
-          path="/products/edit/:id"
-          element={
-            <EditProductPage />
-          }
-        />
-        {/* <Route
+
           path="/supplies"
+
           element={
-            <SuppliesPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER"
+              ]}
+            >
+
+              <SuppliesPage />
+
+            </RoleGuard>
+
           }
-        /> */}
+
+        />
 
         <Route
-          path="/supplies/create"
+
+          path="/product-supplies"
+
           element={
-            <CreateSupplyPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER"
+              ]}
+            >
+
+              <ProductSuppliesPage />
+
+            </RoleGuard>
+
           }
+
         />
 
         <Route
-          path="/supplies/edit/:id"
-          element={
-            <EditSupplyPage />
-          }
-        />
-        <Route
-          path="/payments"
-          element={
-            <PaymentsPage />
-          }
-        />
-        <Route
+
           path="/tables"
+
           element={
-            <TablesPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER",
+                "WAITER"
+              ]}
+            >
+
+              <TablesPage />
+
+            </RoleGuard>
+
           }
+
         />
+
         <Route
+
           path="/orders"
+
           element={
-            <OrdersPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER",
+                "WAITER"
+              ]}
+            >
+
+              <OrdersPage />
+
+            </RoleGuard>
+
           }
+
         />
+
         <Route
+
           path="/orders/:id"
+
           element={
-            <OrderDetailsPage />
+
+            <OrderItemsPage />
+
           }
+
         />
+
         <Route
-          path="/kitchen"
+
+          path="/payments"
+
           element={
-            <KitchenPage />
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER",
+                "CASHIER"
+              ]}
+            >
+
+              <PaymentsPage />
+
+            </RoleGuard>
+
           }
+
         />
+
+        <Route
+
+          path="/kitchen"
+
+          element={
+
+            <RoleGuard
+              roles={[
+                "SUPER_ADMIN",
+                "MANAGER",
+                "COOK"
+              ]}
+            >
+
+              <KitchenPage />
+
+            </RoleGuard>
+
+          }
+
+        />
+
       </Route>
+
     </Routes>
+
   );
+
 }
 
 export default App;

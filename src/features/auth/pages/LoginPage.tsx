@@ -1,66 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import useAuth from "../hooks/useAuth";
 
 export default function LoginPage() {
 
-    const navigate =
-        useNavigate();
+    const navigate = useNavigate();
 
-    const [email, setEmail] =
-        useState("");
+    const { login } = useAuth();
 
-    const [password, setPassword] =
-        useState("");
+    const [email, setEmail] = useState("");
 
-    const submit =
-        async (
-            e: React.FormEvent
-        ) => {
+    const [password, setPassword] = useState("");
 
-            e.preventDefault();
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
 
-            try {
+            const response = await AuthService.login({
+                email,
+                password
+            });
 
-                const response =
-                    await AuthService.login({
+            login(response);
 
-                        email,
+            navigate(
+                "/dashboard"
+            );
 
-                        password
-                    });
+        } catch (error) {
 
-                localStorage.setItem(
-                    "token",
-                    response.token
-                );
-
-                localStorage.setItem(
-                    "name",
-                    response.name
-                );
-
-                localStorage.setItem(
-                    "email",
-                    response.email
-                );
-
-                localStorage.setItem(
-                    "roles",
-                    JSON.stringify(
-                        response.roles
-                    )
-                );
-
-                navigate(
-                    "/dashboard"
-                );
-
-            } catch (error) {
-
-                console.error(error);
-            }
-        };
+            console.error(error);
+        }
+    };
 
     return (
 

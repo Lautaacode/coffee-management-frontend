@@ -1,25 +1,32 @@
 import { Navigate } from "react-router-dom";
-import type { ReactNode } from "react";
+
+import useAuth from "../../features/auth/hooks/useAuth";
 
 interface Props {
-    children: ReactNode;
+
+    children:
+    React.ReactNode;
+
 }
 
-export default function ProtectedRoute(
-    {
-        children
-    }: Props
-) {
+export default function ProtectedRoute({
+    children
+}: Props) {
 
-    const token = localStorage.getItem("token");
+    const {
+        user
+    } = useAuth();
 
-    if (!token) {
+    if (!user) {
+
         return (
             <Navigate
                 to="/login"
             />
         );
+
     }
 
     return children;
+
 }

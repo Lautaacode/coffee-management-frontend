@@ -8,11 +8,6 @@ class ProductSupplyService {
         return response.data;
     }
 
-    async findById(id: number): Promise<ProductSupply> {
-        const response = await api.get(`/product-supplies/${id}`);
-        return response.data;
-    }
-
     async create(productSupply: ProductSupply): Promise<ProductSupply> {
         const response = await api.post("/product-supplies", productSupply);
         return response.data;
@@ -23,19 +18,10 @@ class ProductSupplyService {
         return response.data;
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: number) {
         await api.delete(`/product-supplies/${id}`);
     }
 
-    async findByProduct(productId: number): Promise<ProductSupply[]> {
-        const response = await api.get(`/product-supplies/product/${productId}`);
-        return response.data;
-    }
-
-    async findBySupply(supplyId: number): Promise<ProductSupply[]> {
-        const response = await api.get(`/product-supplies/supply/${supplyId}`);
-        return response.data;
-    }
 }
 
 export default new ProductSupplyService();

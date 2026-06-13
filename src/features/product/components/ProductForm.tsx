@@ -1,92 +1,126 @@
 import { useState } from "react";
 import type { Product } from "../interfaces/Product";
-import { PRODUCT_CATEGORIES, type ProductCategory } from "../interfaces/ProductCategory";
 
 interface Props {
-    initialData?: Product;
-    onSubmit: (product: Product) => void;
+
+    product?: Product;
+
+    onSubmit: (
+        product: Product
+    ) => Promise<void>;
+
 }
 
-export default function ProductForm(
-    { initialData, onSubmit }: Props
-) {
+export default function ProductForm({
+    product,
+    onSubmit
+}: Props) {
 
-    const [name, setName] = useState(initialData?.name || "");
+    const [form,setForm] = useState<Product>(
+            product ?? {
+                name: "",
+                description: "",
+                price: 0,
+                stock: 0,
+                category: "FOOD",
+                active: true
 
-    const [description, setDescription] = useState(initialData?.description || "");
+            }
+        );
 
-    const [price, setPrice] = useState(initialData?.price || 0);
+    function handleChange(
+        e: React.ChangeEvent<
+            HTMLInputElement
+            |
+            HTMLSelectElement
+        >
+    ) {
 
-    const [stock, setStock] = useState(initialData?.stock || 0);
+        setForm({
 
-    const [category, setCategory] = useState<ProductCategory>(initialData?.category || "FOOD");
+            ...form,
 
-    const submit =
-        (e: React.FormEvent) => {
-            e.preventDefault();
-            onSubmit({
-                id: initialData?.id ?? 0,
-                name,
-                description,
-                price,
-                stock,
-                active: true,
-                category
-            });
-        };
+            [e.target.name]:
+                e.target.value
+
+        });
+
+    }
+
+    async function submit(
+        e: React.FormEvent
+    ) {
+
+        e.preventDefault();
+
+        await onSubmit(form);
+
+    }
 
     return (
-        <form onSubmit={submit}>
+
+        <form
+            onSubmit={submit}
+            className="
+            flex flex-col gap-3"
+        >
+
             <input
+                name="name"
                 placeholder="Name"
-                value={name}
-                onChange={(e) =>
-                    setName(e.target.value)
-                }
+                value={form.name}
+                onChange={handleChange}
             />
+
             <input
+                name="description"
                 placeholder="Description"
-                value={description}
-                onChange={(e) =>
-                    setDescription(e.target.value)
-                }
+                value={form.description}
+                onChange={handleChange}
             />
+
             <input
                 type="number"
-                value={price}
-                onChange={(e) =>
-                    setPrice(Number(e.target.value))
-                }
+                name="price"
+                value={form.price}
+                onChange={handleChange}
             />
+
             <input
                 type="number"
-                value={stock}
-                onChange={(e) =>
-                    setStock(Number(e.target.value))
-                }
+                name="stock"
+                value={form.stock}
+                onChange={handleChange}
             />
+
             <select
-                value={category}
-                onChange={(e) =>
-                    setCategory(
-                        e.target.value as ProductCategory
-                    )
-                }
+                name="category"
+                value={form.category}
+                onChange={handleChange}
             >
-                {
-                    PRODUCT_CATEGORIES.map(category => (
-                        <option
-                            key={category}
-                            value={category}
-                        >
-                            {category}
-                        </option>
-                    ))
-                }
+
+                <option value="FOOD">
+
+                    FOOD
+
+                </option>
+
+                <option value="DRINK">
+
+                    DRINK
+
+                </option>
+
             </select>
-            <button type="submit">
+
+            <button>
+
                 Save
+
             </button>
+
         </form>
+
     );
+
 }

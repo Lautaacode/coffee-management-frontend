@@ -1,191 +1,157 @@
-import { Outlet, Link } from "react-router-dom";
+import {
+    Outlet,
+    useNavigate
+} from "react-router-dom";
+
+import useAuth
+    from "../../features/auth/hooks/useAuth";
+import SidebarItem from "../components/SidebarItem";
 
 export default function DashboardLayout() {
 
-    const name = localStorage.getItem("name");
-    const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+    const navigate = useNavigate();
 
+    const { user, logout } = useAuth();
+
+    const roles = user?.roles || [];
     return (
-        <div style={{ display: "flex", minHeight: "100vh" }}>
+        <div
+            className="
+            flex
+            min-h-screen
+            "
+        >
             <aside
-                style={{
-                    width: "250px",
-                    padding: "1rem",
-                    borderRight:
-                        "1px solid #ddd"
-                }}
+                className="
+                w-64
+                border-r
+                p-5
+                bg-white
+                "
             >
-                <h2>Coffee Management</h2>
-                <p>{name}</p>
-                <hr />
+                <h2
+                    className="
+                    text-2xl
+                    font-bold
+                    mb-2
+                    "
+                >
+                    Coffee Management
+                </h2>
+                <p
+                    className="
+                    mb-5
+                    text-gray-600
+                    "
+                >
+                    {user?.name}
+                </p>
                 <nav>
-                    <ul>
-                        <li>
-                            <Link
-                                to="/dashboard"
-                            >
-                                Dashboard
-                            </Link>
-                        </li>
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                )
-                                ||
-                                roles.includes(
-                                    "MANAGER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/users"
-                                    >
-                                        Users
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                ) ||
-                                roles.includes(
-                                    "MANAGER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/products"
-                                    >
-                                        Products
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                )
-                                ||
-                                roles.includes(
-                                    "MANAGER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/supplies"
-                                    >
-                                        Supplies
-                                    </Link>
-                                </li>
-                            )
-                        }
-
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                )
-                                ||
-                                roles.includes(
-                                    "MANAGER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/product-supplies"
-                                    >
-                                        Product Supplies
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                ) ||
-                                roles.includes(
-                                    "CASHIER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/payments"
-                                    >
-                                        Payments
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes("SUPER_ADMIN")
-                                ||
-                                roles.includes("MANAGER")
-                                ||
-                                roles.includes("WAITER")
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/tables"
-                                    >
-                                        Tables
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes(
-                                    "SUPER_ADMIN"
-                                ) ||
-                                roles.includes(
-                                    "MANAGER"
-                                ) ||
-                                roles.includes(
-                                    "WAITER"
-                                )
-                            ) && (
-                                <li>
-                                    <Link
-                                        to="/orders"
-                                    >
-                                        Orders
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        {
-                            (
-                                roles.includes("SUPER_ADMIN")
-                                ||
-                                roles.includes("MANAGER")
-                                ||
-                                roles.includes("COOK")
-                            )
-                            &&
-                            (
-                                <li>
-                                    <Link
-                                        to="/kitchen"
-                                    >
-                                        Kitchen
-                                    </Link>
-                                </li>
-                            )
-                        }
+                    <ul
+                        className="
+                        flex
+                        flex-col
+                        gap-3
+                        "
+                    >
+                        <SidebarItem
+                            to="/dashboard"
+                            text="Dashboard"
+                        />
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")) && (
+                                <SidebarItem
+                                    to="/users"
+                                    text="Users"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")) && (
+                                <SidebarItem
+                                    to="/products"
+                                    text="Products"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")) && (
+                                <SidebarItem
+                                    to="/supplies"
+                                    text="Supplies"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")) && (
+                                <SidebarItem
+                                    to="/product-supplies"
+                                    text="Product Supplies"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("CASHIER")) && (
+                                <SidebarItem
+                                    to="/payments"
+                                    text="Payments"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")
+                            ||
+                            roles.includes("WAITER")) && (
+                                <SidebarItem
+                                    to="/tables"
+                                    text="Tables"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")
+                            ||
+                            roles.includes("WAITER")) && (
+                                <SidebarItem
+                                    to="/orders"
+                                    text="Orders"
+                                />
+                            )}
+                        {(roles.includes("SUPER_ADMIN")
+                            ||
+                            roles.includes("MANAGER")
+                            ||
+                            roles.includes("COOK")) && (
+                                <SidebarItem
+                                    to="/kitchen"
+                                    text="Kitchen"
+                                />
+                            )}
                     </ul>
                 </nav>
+                <button
+                    className="
+                    mt-8
+                    bg-red-500
+                    text-white
+                    px-4
+                    py-2
+                    rounded
+                    "
+                    onClick={() => {
+                        logout();
+                        navigate("/login");
+                    }}
+                >
+                    Logout
+                </button>
             </aside>
             <main
-                style={{
-                    flex: 1,
-                    padding: "2rem"
-                }}
+                className="
+                flex-1
+                p-8
+                "
             >
                 <Outlet />
             </main>

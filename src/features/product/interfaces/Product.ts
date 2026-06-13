@@ -2,7 +2,7 @@ import type { ProductCategory } from "./ProductCategory";
 
 
 export interface Product {
-    id: number;
+    id?: number;
     createdAt?: string;
     updatedAt?: string;
     name: string;
